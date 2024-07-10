@@ -13,7 +13,35 @@ const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
 const router = require("./routes/static")
 const inventoryRoute = require("./routes/inventoryRoute")
-const utilities = require("./utilities/")
+const utilities = require("./utilities/") 
+const session = require("express-session")
+const pool = require('./database/')
+const account=require('./routes/accountRoute')
+const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser")
+
+/* ***********************
+ * Middleware
+ * ************************/
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(cookieParser())
+// Express Messages Middleware
+app.use(require('connect-flash')())
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+})
 
 /* ***********************
  * View Engine and Templates
@@ -26,11 +54,12 @@ app.set("layout", "./layouts/layout") // not at views root
  * Routes
  *************************/
 app.use(static)
-//Index Route
-//app.get("/",function(req, res){res.render("index", {title:"Home"})})
+// Index route
+// app.get("/",function(req,res){res.render("index", {title: "Home"})})
 app.get("/", utilities.handleErrors(baseController.buildHome))
-// Inventory routes
+// Inventory routes (description)
 app.use("/inv", inventoryRoute)
+app.use("/account", account)
 
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
