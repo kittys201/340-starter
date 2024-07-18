@@ -1,5 +1,6 @@
 const utilities = require("../utilities/")
 const accountModel = require("../models/account-model")
+const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
@@ -104,8 +105,18 @@ async function accountLogin(req, res) {
 	 return res.redirect("/account/")
 	 }
 	} catch (error) {
-	 return new Error('Access Forbidden')
+		return new Error('Access Forbidden')
 	}
-   }
+}
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin }
+async function accountManagment(req, res, next) {
+	let nav = await utilities.getNav()
+	res.render("account/account-management", {
+		title: "Account  Management",
+		nav,
+		errors: null,
+    })
+}
+
+
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin,accountManagment }

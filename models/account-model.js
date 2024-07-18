@@ -1,5 +1,4 @@
 const pool = require("../database/")
-
 /* *****************************
 *   Register new account
 * *************************** */
@@ -11,7 +10,6 @@ async function registerAccount(account_firstname, account_lastname, account_emai
       return error.message
     }
   }
-
   /* **********************
  *   Check for existing email
  * ********************* */
@@ -24,6 +22,7 @@ async function checkExistingEmail(account_email){
     return error.message
   }
 }
+
 
 /* *****************************
 * Return account data using email address
@@ -38,4 +37,5 @@ async function getAccountByEmail (account_email) {
     return new Error("No matching email found")
   }
 }
-  module.exports = {registerAccount, checkExistingEmail, getAccountByEmail};
+
+  module.exports = {registerAccount, checkExistingEmail, getAccountByEmail };

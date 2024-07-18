@@ -102,7 +102,7 @@ li a:hover {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 5% 3%;
-  background-color: rgb(29, 190, 190);
+  background-color: rgb(29, 64, 190);
 }
 #upgrades span > img {
   align-self: center;
@@ -210,7 +210,7 @@ hr {
   background-color: rgba(127, 255, 212, 0.082);
   padding: .8%;
 }
-.login-form-container, #add-classification, #add-inventory {
+.login-form-container, #add-classification, #add-inventory,#modify-inventory {
   color: white;
   display: flex;
   justify-content: center;
@@ -248,7 +248,7 @@ button:hover, #pswdBtn:hover {
   background-color: rgb(153, 171, 182);
   color: #ffffff;
 }
-label, #classificasion_id {
+label, #classificasion_id, #classificasion {
   padding-left: 0;
   padding-bottom: 0;
   font-weight: bold;
@@ -281,6 +281,19 @@ input:required:invalid, input:focus:invalid, textarea:focus:invalid, textarea:re
 input:required:valid, textarea:required:valid {
   border: 2px solid #00bfff;
 }
+
+button:disabled {
+  background-color: #a8a9a9e8;
+  color: white;
+  /* border: 1px solid #218caf; */
+}
+button:hover:disabled {
+  background-color: #00bfffc8;
+}
+/* button:active {
+  color: #00698B;
+  background-color: white;
+} */
 
 @media screen and (max-width: 480px) {
   html {
