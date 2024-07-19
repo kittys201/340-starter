@@ -1,3 +1,4 @@
+const { body } = require("express-validator")
 const invModel = require("../models/inventory-model")
 require("dotenv").config()
 const jwt = require("jsonwebtoken")
@@ -26,6 +27,33 @@ Util.getNav = async function (req, res, next) {
   })
   list += "</ul>"
   return list
+}
+
+/* ************************
+ * Constructs the login section 
+ ************************** */
+Util.Login = function (accountData=null) {
+  let login = '<div id="tools">'
+  if (accountData == null) {
+      login += '<a href="\/account\/login" title="Click to login">My Account</a>'
+  } else {
+      login += `<a href="/account" title="Welcome">Welcome ${accountData.account_firstname} </a>`
+      login += '<a href="/#" title="Logout"> Logout</a>'
+  }
+  login += "</div>"
+  return login
+}
+
+/* ************************
+* Constructs the Invenotry management section 
+************************** */
+Util.inventoryManagement = function (accountData=null) {
+  let invManagement = ""
+  if (accountData.account_type == "Admin" || accountData.account_type == "Employee" ) {
+      invManagement += '<h3>Inventory Management</h3>'
+      invManagement += '<p><a href="/inv" title="Manage inventory">Manage Inventory</a></p>'
+  }
+  return invManagement
 }
 
 /* **************************************
@@ -144,6 +172,26 @@ Util.checkJWTToken = (req, res, next) => {
 }
 
 /* ****************************************
+* Middleware give AuthZ to inventory
+**************************************** */
+Util.checkAcountType = (req, res, next) => {
+  if (req.cookies.jwt) {
+    jwt.verify(
+    req.cookies.jwt,
+    process.env.ACCESS_TOKEN_SECRET,
+    function (err, accountData) {
+    res.locals.accountData = accountData
+    if (accountData.account_type == "Admin" || accountData.account_type == "Employee" ) {
+        next()
+    } 
+    else {
+        return res.redirect("/account/login")
+      }
+    })
+  } 
+}
+
+/* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
  * General Error Handling
@@ -156,10 +204,19 @@ Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)
 Util.checkLogin = (req, res, next) => {
   if (res.locals.loggedin) {
     next()
-  } else {
+} else {
     req.flash("notice", "Please log in.")
     return res.redirect("/account/login")
-  }
+}
+}
+
+Util.getUserId = (accountData) => {
+if (accountData) {
+return accountData.account_id
+ } else {
+  req.flash("notice", "Please log in.")
+  return res.redirect("/account/login")
  }
+}
 
 module.exports = Util

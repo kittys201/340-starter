@@ -233,6 +233,9 @@ label, input, button, span {
   border-radius: 2%;
   border: none;
 }
+span {
+  padding: 0;
+}
 input, textarea {
   width: 100%;
   border-radius: 5px;
