@@ -123,9 +123,9 @@ validate.checkLoginData = async (req, res, next) => {
     next()
 }
 
-/*  **********************************
+/*  ********************************************
 *  Change user information Data Validation Rules
-* ********************************* */
+* ***********************************************/
 validate.changeInformationRules = () => {
 	return [
 		body("account_firstname")
@@ -176,9 +176,9 @@ validate.checkUpdateData = async (req, res, next) => {
     next()
   }
 
-/*  **********************************
-*  Change user password - Data Validation Rules
-* ********************************* */
+/*  ********************************************
+*  Change user password - Data Validation Rules*
+* **********************************************/
 validate.changePasswordRules = () => {
 	return [
 		// password is required
@@ -195,9 +195,9 @@ validate.changePasswordRules = () => {
 		.withMessage("Password does not meet requirements."),		
 	]
 }
-/* ******************************
- * Check update password and return errors or continue to update
- * ***************************** */
+/* *************************************************************
+ * Check update password and return errors or continue to update*
+ * **************************************************************/
 validate.checkPassowordData = async (req, res, next) => {
     let errors = []
     errors = validationResult(req)

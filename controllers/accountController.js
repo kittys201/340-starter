@@ -218,4 +218,17 @@ async function updateAccountPassword(req, res) {
 	}
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin,accountManagment, accountInfomation, updateAccountInfomation, updateAccountPassword }
+/* ****************************************
+*  Logout account
+* *************************************** */
+async function logout(req, res) {
+	let nav = await utilities.getNav()
+	let logOut = res.clearCookie('jwt')
+	if (logOut) {
+		// req.flash("notice",`User logout successfully`)
+		console.log(`User logout successfully`)
+		res.status(201).redirect("/")
+	} 
+}
+
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin,accountManagment, accountInfomation, updateAccountInfomation, updateAccountPassword, logout }

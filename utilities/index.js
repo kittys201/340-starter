@@ -5,9 +5,9 @@ const jwt = require("jsonwebtoken")
 
 const Util = {}
 
-/* ************************
- * Constructs the nav HTML unordered list
- ************************** */
+/* ***************************************
+ * Constructs the nav HTML unordered list *
+ ******************************************/
 Util.getNav = async function (req, res, next) {
   let data = await invModel.getClassifications()
   // console.log(data.rows) //
@@ -29,24 +29,24 @@ Util.getNav = async function (req, res, next) {
   return list
 }
 
-/* ************************
+/* *****************************
  * Constructs the login section 
- ************************** */
+ ***************************** */
 Util.Login = function (accountData=null) {
   let login = '<div id="tools">'
   if (accountData == null) {
       login += '<a href="\/account\/login" title="Click to login">My Account</a>'
   } else {
       login += `<a href="/account" title="Welcome">Welcome ${accountData.account_firstname} </a>`
-      login += '<a href="/#" title="Logout"> Logout</a>'
+      login += '<a href="/account/logout" title="Logout"> Logout</a>'
   }
   login += "</div>"
   return login
 }
 
-/* ************************
+/* *******************************************
 * Constructs the Invenotry management section 
-************************** */
+**********************************************/
 Util.inventoryManagement = function (accountData=null) {
   let invManagement = ""
   if (accountData.account_type == "Admin" || accountData.account_type == "Employee" ) {

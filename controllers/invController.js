@@ -278,27 +278,23 @@ invCont.deleteItemsInformation = async function (req, res, next) {
 *  Delete inventory vehicle
 * *************************************** */
 invCont.deleteInventory = async function (req, res) {
-    const {inv_make, inv_model, inv_id } = req.body
-    const invId = parseInt(inv_id)
+	const {inv_make, inv_model, inv_id } = req.body
+	const invId = parseInt(inv_id)
 
-    try {
-        const deleteResult = await invModel.deleteVehicle(invId)
+	let nav = await utilities.getNav()	
+	const deleteResult = await invModel.deleteVehicle(invId)
 
-        const itemNAme = inv_make + " " + inv_model
-        if (deleteResult) {
-            req.flash(
-                "notice",
-                `The ${itemNAme} was successfully deleted.`
-            )
-            res.redirect("/inv/")
-        } else {
-            req.flash("notice", "Sorry, the deletion failed.")
-            res.redirect("/inv/delete/" + inv_id)
-        }
-    } catch (error) {
-        console.error("Error deleting vehicle:", error)
-        req.flash("notice", "An error occurred while deleting the vehicle.")
-        res.redirect("/inv/delete/" + inv_id)
-    }
+	const itemNAme = inv_make + " " + inv_model
+	if (deleteResult) {
+		req.flash(
+			"notice",
+			`The ${itemNAme} was successfully deleted.`
+		)
+		res.redirect("/inv/")
+	} else {
+		req.flash("notice", "Sorry, the deletion failed.")
+		res.redirect("./inv/delete/inv_id")
+	}
 }
+
 module.exports = invCont
